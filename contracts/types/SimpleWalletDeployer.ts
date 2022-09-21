@@ -26,9 +26,12 @@ import type {
 export interface SimpleWalletDeployerInterface extends utils.Interface {
   functions: {
     "deployWallet(address,address,uint256)": FunctionFragment;
+    "getDeploymentAddress(address,address,uint256)": FunctionFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "deployWallet"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "deployWallet" | "getDeploymentAddress"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "deployWallet",
@@ -38,9 +41,21 @@ export interface SimpleWalletDeployerInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>
     ]
   ): string;
+  encodeFunctionData(
+    functionFragment: "getDeploymentAddress",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "deployWallet",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getDeploymentAddress",
     data: BytesLike
   ): Result;
 
@@ -80,6 +95,13 @@ export interface SimpleWalletDeployer extends BaseContract {
       salt: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    getDeploymentAddress(
+      entryPoint: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
+      salt: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
   };
 
   deployWallet(
@@ -89,8 +111,22 @@ export interface SimpleWalletDeployer extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getDeploymentAddress(
+    entryPoint: PromiseOrValue<string>,
+    owner: PromiseOrValue<string>,
+    salt: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   callStatic: {
     deployWallet(
+      entryPoint: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
+      salt: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getDeploymentAddress(
       entryPoint: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       salt: PromiseOrValue<BigNumberish>,
@@ -107,6 +143,13 @@ export interface SimpleWalletDeployer extends BaseContract {
       salt: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    getDeploymentAddress(
+      entryPoint: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
+      salt: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -115,6 +158,13 @@ export interface SimpleWalletDeployer extends BaseContract {
       owner: PromiseOrValue<string>,
       salt: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getDeploymentAddress(
+      entryPoint: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
+      salt: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }

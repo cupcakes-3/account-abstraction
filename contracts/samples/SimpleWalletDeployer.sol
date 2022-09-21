@@ -8,8 +8,39 @@ import "./SimpleWallet.sol";
  * the "initCode" for a wallet hold its address and a method call (deployWallet) with parameters, not actual constructor code.
  */
 contract SimpleWalletDeployer {
+    function deployWallet(
+        IEntryPoint entryPoint,
+        address owner,
+        uint256 salt
+    ) public returns (SimpleWallet) {
+        return new SimpleWallet{salt: bytes32(salt)}(entryPoint, owner);
+    }
 
-    function deployWallet(IEntryPoint entryPoint, address owner, uint salt) public returns (SimpleWallet) {
-        return new SimpleWallet{salt : bytes32(salt)}(entryPoint, owner);
+    function getDeploymentAddress(
+        IEntryPoint entryPoint,
+        address owner,
+        uint256 salt
+    ) public view returns (address) {
+        address predictedAddress = address(
+            uint160(
+                uint256(
+                    keccak256(
+                        abi.encodePacked(
+                            bytes1(0xff),
+                            address(this),
+                            salt,
+                            keccak256(
+                                abi.encodePacked(
+                                    type(SimpleWallet).creationCode,
+                                    abi.encode(entryPoint, owner)
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        return predictedAddress;
     }
 }

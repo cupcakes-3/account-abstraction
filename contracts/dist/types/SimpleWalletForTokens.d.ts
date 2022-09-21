@@ -45,7 +45,7 @@ export interface SimpleWalletForTokensInterface extends utils.Interface {
         "addDeposit()": FunctionFragment;
         "entryPoint()": FunctionFragment;
         "exec(address,uint256,bytes)": FunctionFragment;
-        "execBatch(address[],bytes[])": FunctionFragment;
+        "execBatch(address[],uint256[],bytes[])": FunctionFragment;
         "execFromEntryPoint(address,uint256,bytes)": FunctionFragment;
         "getDeposit()": FunctionFragment;
         "nonce()": FunctionFragment;
@@ -63,7 +63,11 @@ export interface SimpleWalletForTokensInterface extends utils.Interface {
         PromiseOrValue<BigNumberish>,
         PromiseOrValue<BytesLike>
     ]): string;
-    encodeFunctionData(functionFragment: "execBatch", values: [PromiseOrValue<string>[], PromiseOrValue<BytesLike>[]]): string;
+    encodeFunctionData(functionFragment: "execBatch", values: [
+        PromiseOrValue<string>[],
+        PromiseOrValue<BigNumberish>[],
+        PromiseOrValue<BytesLike>[]
+    ]): string;
     encodeFunctionData(functionFragment: "execFromEntryPoint", values: [
         PromiseOrValue<string>,
         PromiseOrValue<BigNumberish>,
@@ -129,7 +133,7 @@ export interface SimpleWalletForTokens extends BaseContract {
         exec(dest: PromiseOrValue<string>, value: PromiseOrValue<BigNumberish>, func: PromiseOrValue<BytesLike>, overrides?: Overrides & {
             from?: PromiseOrValue<string>;
         }): Promise<ContractTransaction>;
-        execBatch(dest: PromiseOrValue<string>[], func: PromiseOrValue<BytesLike>[], overrides?: Overrides & {
+        execBatch(dest: PromiseOrValue<string>[], values: PromiseOrValue<BigNumberish>[], func: PromiseOrValue<BytesLike>[], overrides?: Overrides & {
             from?: PromiseOrValue<string>;
         }): Promise<ContractTransaction>;
         execFromEntryPoint(dest: PromiseOrValue<string>, value: PromiseOrValue<BigNumberish>, func: PromiseOrValue<BytesLike>, overrides?: Overrides & {
@@ -158,7 +162,7 @@ export interface SimpleWalletForTokens extends BaseContract {
     exec(dest: PromiseOrValue<string>, value: PromiseOrValue<BigNumberish>, func: PromiseOrValue<BytesLike>, overrides?: Overrides & {
         from?: PromiseOrValue<string>;
     }): Promise<ContractTransaction>;
-    execBatch(dest: PromiseOrValue<string>[], func: PromiseOrValue<BytesLike>[], overrides?: Overrides & {
+    execBatch(dest: PromiseOrValue<string>[], values: PromiseOrValue<BigNumberish>[], func: PromiseOrValue<BytesLike>[], overrides?: Overrides & {
         from?: PromiseOrValue<string>;
     }): Promise<ContractTransaction>;
     execFromEntryPoint(dest: PromiseOrValue<string>, value: PromiseOrValue<BigNumberish>, func: PromiseOrValue<BytesLike>, overrides?: Overrides & {
@@ -183,7 +187,7 @@ export interface SimpleWalletForTokens extends BaseContract {
         addDeposit(overrides?: CallOverrides): Promise<void>;
         entryPoint(overrides?: CallOverrides): Promise<string>;
         exec(dest: PromiseOrValue<string>, value: PromiseOrValue<BigNumberish>, func: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<void>;
-        execBatch(dest: PromiseOrValue<string>[], func: PromiseOrValue<BytesLike>[], overrides?: CallOverrides): Promise<void>;
+        execBatch(dest: PromiseOrValue<string>[], values: PromiseOrValue<BigNumberish>[], func: PromiseOrValue<BytesLike>[], overrides?: CallOverrides): Promise<void>;
         execFromEntryPoint(dest: PromiseOrValue<string>, value: PromiseOrValue<BigNumberish>, func: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<void>;
         getDeposit(overrides?: CallOverrides): Promise<BigNumber>;
         nonce(overrides?: CallOverrides): Promise<BigNumber>;
@@ -205,7 +209,7 @@ export interface SimpleWalletForTokens extends BaseContract {
         exec(dest: PromiseOrValue<string>, value: PromiseOrValue<BigNumberish>, func: PromiseOrValue<BytesLike>, overrides?: Overrides & {
             from?: PromiseOrValue<string>;
         }): Promise<BigNumber>;
-        execBatch(dest: PromiseOrValue<string>[], func: PromiseOrValue<BytesLike>[], overrides?: Overrides & {
+        execBatch(dest: PromiseOrValue<string>[], values: PromiseOrValue<BigNumberish>[], func: PromiseOrValue<BytesLike>[], overrides?: Overrides & {
             from?: PromiseOrValue<string>;
         }): Promise<BigNumber>;
         execFromEntryPoint(dest: PromiseOrValue<string>, value: PromiseOrValue<BigNumberish>, func: PromiseOrValue<BytesLike>, overrides?: Overrides & {
@@ -235,7 +239,7 @@ export interface SimpleWalletForTokens extends BaseContract {
         exec(dest: PromiseOrValue<string>, value: PromiseOrValue<BigNumberish>, func: PromiseOrValue<BytesLike>, overrides?: Overrides & {
             from?: PromiseOrValue<string>;
         }): Promise<PopulatedTransaction>;
-        execBatch(dest: PromiseOrValue<string>[], func: PromiseOrValue<BytesLike>[], overrides?: Overrides & {
+        execBatch(dest: PromiseOrValue<string>[], values: PromiseOrValue<BigNumberish>[], func: PromiseOrValue<BytesLike>[], overrides?: Overrides & {
             from?: PromiseOrValue<string>;
         }): Promise<PopulatedTransaction>;
         execFromEntryPoint(dest: PromiseOrValue<string>, value: PromiseOrValue<BigNumberish>, func: PromiseOrValue<BytesLike>, overrides?: Overrides & {
